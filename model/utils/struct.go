@@ -1,6 +1,7 @@
 package commutils
 
 import (
+	"encoding/json"
 	"gopkg.in/jeevatkm/go-model.v1"
 	"reflect"
 	"strings"
@@ -33,4 +34,15 @@ func StructToMap(obj interface{}) map[string]interface{} {
 		data[typeOfT.Field(i).Name] = f.Interface()
 	}
 	return data
+}
+
+// map转换成结构体
+func MapToStruct(input interface{}, obj interface{}) (err error) {
+	// 序列化;
+	j, errM := json.Marshal(input)
+	if errM != nil {
+		err = errM
+	}
+	// 反序列化;
+	return json.Unmarshal([]byte(j), obj)
 }
